@@ -5,8 +5,12 @@ let spinning = false; // スピン中かどうかのフラグを追加
 
 // WebSocket接続を確立する関数
 function connectWebSocket() {
-    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-    socket = new WebSocket(protocol + window.location.host + '/ws/roulette/');
+    // const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    // socket = new WebSocket(protocol + window.location.host + '/ws/roulette/');
+
+    // game.js
+    const socket = new WebSocket('wss://test-splroulette001-7c4e722641b8.herokuapp.com/ws/roulette/');
+
 
     // WebSocket接続が開かれた際の処理
     socket.onopen = function() {
