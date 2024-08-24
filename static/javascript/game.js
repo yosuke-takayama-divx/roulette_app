@@ -1,6 +1,7 @@
 let socket; // WebSocketをグローバルに定義
 let results = {}; // 結果を保存するためのオブジェクト
 let currentIndex = null; // 現在選ばれているインデックス
+let spinning = false; // スピン中かどうかのフラグを追加
 
 // WebSocket接続を確立する関数
 function connectWebSocket() {
@@ -10,6 +11,7 @@ function connectWebSocket() {
     // WebSocket接続が開かれた際の処理
     socket.onopen = function() {
         console.log("WebSocket接続が開かれました。");
+        enableSpinButton(); // スピンボタンを有効にする
     };
 
     // WebSocketメッセージ受信時の処理
@@ -26,6 +28,7 @@ function connectWebSocket() {
     // WebSocket接続が閉じられた際の処理
     socket.onclose = function() {
         console.log("WebSocket接続が閉じられました。");
+        disableSpinButton(); // スピンボタンを無効にする
         // 再接続を試みる
         setTimeout(connectWebSocket, 2000); // 2秒後に再接続
     };
@@ -64,16 +67,23 @@ function handleIncomingMessage(data) {
 // ルーレットを回す関数
 function spinRoulette(event) {
     event.preventDefault(); // ページリロード防止
-    if (socket.readyState === WebSocket.OPEN) {
+    if (!spinning && socket.readyState === WebSocket.OPEN) {
+        spinning = true; // スピン開始
+        disableSpinButton(); // スピン中はボタンを無効にする
+        
         for (let i = 1; i <= 10; i++) {
             const userNameInput = document.getElementById("userName" + i);
             const userName = userNameInput ? userNameInput.value || "あなた" : "あなた";
             socket.send(JSON.stringify({ userName: userName, index: i })); // データを送信
         }
+
+        // スピン終了後の再有効化
+        setTimeout(() => {
+            spinning = false; // スピン終了
+            enableSpinButton(); // スピンボタンを再び有効にする
+        }, 3000); // スピン処理の時間に応じて調整
     } else {
-        console.error("WebSocketは接続されていないため、メッセージを送信できません。");
-        // 必要に応じて再接続を試みる
-        connectWebSocket();
+        console.error("WebSocketは接続されていないか、スピン中のためメッセージを送信できません。");
     }
 }
 
@@ -99,12 +109,21 @@ function updateResultDisplay(index) {
     name.innerText = result.userName + 'の武器は ' + result.imageName + ' です！'; // 名前と武器を表示
 }
 
+// スピンボタンを有効にする関数
+function enableSpinButton() {
+    document.getElementById("spinButton").disabled = false;
+}
+
+// スピンボタンを無効にする関数
+function disableSpinButton() {
+    document.getElementById("spinButton").disabled = true;
+}
+
 // ページが読み込まれた際の初期処理
 document.addEventListener("DOMContentLoaded", function() {
     const img = document.getElementById("resultImage");
     img.src = STATIC_URL + "images/0.jpg"; // 初期画像を設定
     connectWebSocket(); // WebSocket接続を開始
-    document.getElementById("spinButton").onclick = spinRoulette; // スピンボタンのクリックハンドラーを設定
 });
 
 // フォームを表示・非表示にするボタンの処理
