@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-*#t_e!44+h72w8@iuzt4(1s%zzt_!2eyfvyvwu0=2olzq^7ee*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'test-splroulette001-7c4e722641b8.herokuapp.com',  # Herokuのドメインを追加
+    '127.0.0.1',  # ローカル開発用
+    'localhost',  # ローカル開発用
+]
 
 
 # Application definition
