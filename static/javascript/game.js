@@ -1,4 +1,5 @@
-const socket = new WebSocket('ws://' + window.location.host + '/ws/roulette/');
+const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+const socket = new WebSocket(protocol + window.location.host + '/ws/roulette/');
 let results = {};
 let currentIndex = null;
 
@@ -78,8 +79,6 @@ function updateResultDisplay(index) {
     const result = results[index];
     const img = document.getElementById("resultImage");
     const name = document.getElementById("resultName");
-    
-    // STATIC_URL がどこで定義されているかを確認してください
     img.src = STATIC_URL + result.imagePath;
     name.innerText = result.userName + 'の武器は ' + result.imageName + ' です！';
 }
