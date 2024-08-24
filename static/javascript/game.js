@@ -10,7 +10,22 @@ function connectWebSocket() {
 
     // game.js
     const socket = new WebSocket('wss://test-splroulette001-7c4e722641b8.herokuapp.com/ws/roulette/');
-
+    
+    socket.onopen = function(event) {
+        console.log('WebSocket is open now.');
+    };
+    
+    socket.onmessage = function(event) {
+        console.log('Message from server:', event.data);
+    };
+    
+    socket.onclose = function(event) {
+        console.log('WebSocket is closed now.');
+    };
+    
+    socket.onerror = function(error) {
+        console.error('WebSocket error observed:', error);
+    };
 
     // WebSocket接続が開かれた際の処理
     socket.onopen = function() {
