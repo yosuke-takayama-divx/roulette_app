@@ -1,1 +1,1 @@
-web: gunicorn spl_roulette.spl_roulette.wsgi:application
+web: gunicorn spl_roulette.wsgi --log-file -
