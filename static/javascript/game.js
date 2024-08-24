@@ -1,18 +1,38 @@
-// WebSocketのプロトコルを設定
-const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-const socket = new WebSocket(protocol + window.location.host + '/ws/roulette/'); // WebSocket接続を確立
-
+let socket; // WebSocketをグローバルに定義
 let results = {}; // 結果を保存するためのオブジェクト
 let currentIndex = null; // 現在選ばれているインデックス
 
-// WebSocket接続が開かれた際の処理
-socket.onopen = function() {
-    console.log("WebSocket接続が開かれました。");
-};
+// WebSocket接続を確立する関数
+function connectWebSocket() {
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    socket = new WebSocket(protocol + window.location.host + '/ws/roulette/');
 
-// WebSocketメッセージ受信時の処理
-socket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
+    // WebSocket接続が開かれた際の処理
+    socket.onopen = function() {
+        console.log("WebSocket接続が開かれました。");
+    };
+
+    // WebSocketメッセージ受信時の処理
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        handleIncomingMessage(data);
+    };
+
+    // WebSocket接続エラー時の処理
+    socket.onerror = function(error) {
+        console.error("WebSocketエラーが発生しました：", error);
+    };
+
+    // WebSocket接続が閉じられた際の処理
+    socket.onclose = function() {
+        console.log("WebSocket接続が閉じられました。");
+        // 再接続を試みる
+        setTimeout(connectWebSocket, 2000); // 2秒後に再接続
+    };
+}
+
+// Incoming message handling function
+function handleIncomingMessage(data) {
     if (data.index !== undefined) {
         const userNameInput = document.getElementById("userName" + data.index);
         if (userNameInput) {
@@ -39,22 +59,12 @@ socket.onmessage = function(e) {
     } else {
         console.error("data.index が undefined です。");
     }
-};
-
-// WebSocket接続エラー時の処理
-socket.onerror = function(error) {
-    console.error("WebSocketエラーが発生しました：", error);
-};
-
-// WebSocket接続が閉じられた際の処理
-socket.onclose = function() {
-    console.log("WebSocket接続が閉じられました。");
-};
+}
 
 // ルーレットを回す関数
 function spinRoulette(event) {
     event.preventDefault(); // ページリロード防止
-    if (socket.readyState === WebSocket.OPEN) { // WebSocketがオープンな状態であれば
+    if (socket.readyState === WebSocket.OPEN) {
         for (let i = 1; i <= 10; i++) {
             const userNameInput = document.getElementById("userName" + i);
             const userName = userNameInput ? userNameInput.value || "あなた" : "あなた";
@@ -62,6 +72,8 @@ function spinRoulette(event) {
         }
     } else {
         console.error("WebSocketは接続されていないため、メッセージを送信できません。");
+        // 必要に応じて再接続を試みる
+        connectWebSocket();
     }
 }
 
@@ -91,6 +103,7 @@ function updateResultDisplay(index) {
 document.addEventListener("DOMContentLoaded", function() {
     const img = document.getElementById("resultImage");
     img.src = STATIC_URL + "images/0.jpg"; // 初期画像を設定
+    connectWebSocket(); // WebSocket接続を開始
     document.getElementById("spinButton").onclick = spinRoulette; // スピンボタンのクリックハンドラーを設定
 });
 
