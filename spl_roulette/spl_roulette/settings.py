@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-    'game'
+    'game',
+    'rest_framework'
 ]
 
 # Channelsの設定
