@@ -1,31 +1,21 @@
-
 import os
 from pathlib import Path
-import os
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*#t_e!44+h72w8@iuzt4(1s%zzt_!2eyfvyvwu0=2olzq^7ee*'
-
-# SECURITY WARNING: don't run with debug turned on in production!
+# Security settings
+SECRET_KEY = 'django-insecure-*#t_e!44+h72w8@iuzt4(1s%zzt_!2eyfvyvwu0=2olzq^7ee*'  # Keep this secret in production
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'test-splroulette001-7c4e722641b8.herokuapp.com',  # Herokuのドメインを追加
-    '127.0.0.1',  # ローカル開発用
-    'localhost',  # ローカル開発用
+    'test-splroulette001-7c4e722641b8.herokuapp.com',
+    '127.0.0.1',
+    'localhost',
 ]
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -35,7 +25,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'rest_framework',
+    'corsheaders',  # CORSヘッダーを使用するアプリを追加
     'game'
+]
+
+# CORSの設定
+CORS_ALLOWED_ORIGINS = [
+    "https://test-splroulette001-7c4e722641b8.herokuapp.com",  # HerokuのURLを明記
+    "http://localhost:8000",  # ローカル開発用
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CORSミドルウェアを最初に追加
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 # Channelsの設定
@@ -49,18 +58,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
 
 ROOT_URLCONF = 'spl_roulette.urls'
 
@@ -82,20 +79,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'spl_roulette.wsgi.application'
 
-
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL')
     )
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -111,22 +102,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -134,14 +116,4 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# settings.py
-CORS_ALLOWED_ORIGINS = [
-    "https://your-domain.com",  # フロントエンドのURL
-]
-
-# チャンネルの設定も必要
-CHANNELS_ALLOW_CORS = True  # Django Channelsの場合

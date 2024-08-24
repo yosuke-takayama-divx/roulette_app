@@ -1,6 +1,7 @@
+# game/routing.py
 from django.urls import re_path
-from .consumers import RouletteConsumer
+from . import consumers  # Consumersのインポート
 
 websocket_urlpatterns = [
-    re_path(r'ws/roulette/$', RouletteConsumer.as_asgi()),
+    re_path(r'ws/roulette/', consumers.RouletteConsumer.as_asgi()),
 ]

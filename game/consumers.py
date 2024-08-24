@@ -3,11 +3,15 @@ from channels.generic.websocket import WebsocketConsumer
 import random
 
 class RouletteConsumer(WebsocketConsumer):
+    connected_users = {}  # 接続されているユーザーの情報を保持する辞書
+
     def connect(self):
         self.accept()
+        print("Client connected.")
 
     def disconnect(self, close_code):
-        pass
+        # ユーザーが切断された時の処理
+        print("Client disconnected.")
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -23,6 +27,13 @@ class RouletteConsumer(WebsocketConsumer):
             ]
             selected_weapon = random.choice(weapons)
 
+            # 選ばれた武器情報をコンソールに出力
+            print(f'{user_name}が選んだ武器: {selected_weapon["name"]}')
+
+            # ユーザー情報を接続ユーザー辞書に追加
+            self.connected_users[index] = user_name
+
+            # 選ばれた武器を送信
             self.send(text_data=json.dumps({
                 'userName': user_name,
                 'index': index,
@@ -30,6 +41,9 @@ class RouletteConsumer(WebsocketConsumer):
                 'image_path': selected_weapon['image_path']
             }))
         else:
+            # 無効なデータを受け取った場合のエラーメッセージ
+            error_message = 'Invalid data received'
+            print(error_message)
             self.send(text_data=json.dumps({
-                'error': 'Invalid data received'
+                'error': error_message
             }))
