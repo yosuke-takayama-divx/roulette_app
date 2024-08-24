@@ -78,17 +78,22 @@ function updateResultDisplay(index) {
     const result = results[index];
     const img = document.getElementById("resultImage");
     const name = document.getElementById("resultName");
+    
+    // STATIC_URL がどこで定義されているかを確認してください
     img.src = STATIC_URL + result.imagePath;
     name.innerText = result.userName + 'の武器は ' + result.imageName + ' です！';
 }
 
 // ページがロードされた時0.jpgを表示
 document.addEventListener("DOMContentLoaded", function() {
-  const img = document.getElementById("resultImage");
-  img.src = STATIC_URL + "images/0.jpg";
+    const img = document.getElementById("resultImage");
+    img.src = STATIC_URL + "images/0.jpg";
 });
 
 document.getElementById("btn_form_wrap").onclick = function() {
-  const formWrap = document.getElementById("form_wrap");
-  formWrap.classList.toggle("toggle_open");
+    const formWrap = document.getElementById("form_wrap");
+    formWrap.classList.toggle("toggle_open");
 };
+
+// スピンボタンのクリックハンドラーを設定
+document.getElementById("spinButton").onclick = spinRoulette;  // スピンボタンのIDを確認
