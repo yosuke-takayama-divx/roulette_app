@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'game'
+    'spl_roulette',
 ]
 
 # Channelsの設定
