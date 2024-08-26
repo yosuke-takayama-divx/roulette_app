@@ -1,5 +1,5 @@
 // WebSocketの初期化
-const socket = new WebSocket('ws://' + window.location.hostname + ':8001/ws/roulette/');
+const socket = new WebSocket(WEBSOCKET_URL);
 let results = {};
 let currentIndex = null;
 

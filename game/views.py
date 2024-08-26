@@ -2,7 +2,15 @@ import random
 from django.shortcuts import render
 
 def index(request):
-    return render(request, 'game/index.html')
+    # 環境変数からWebSocketのURLを取得
+    websocket_url = os.getenv('WEBSOCKET_URL')
+    
+    # 環境変数が設定されていない場合のデフォルト値を設定
+    if not websocket_url:
+        protocol = 'wss://' if request.is_secure() else 'ws://'
+        websocket_url = protocol + request.get_host() + '/ws/roulette/'
+    
+    return render(request, 'game/index.html', {'websocket_url': websocket_url})
 
 def spin(request):
     images = [

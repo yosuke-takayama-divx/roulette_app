@@ -8,6 +8,8 @@
     <script>
         // 静的ファイルのベースURLをJavaScriptに渡す
         const STATIC_URL = "{% static '' %}";
+        // WebSocketのURLを環境変数から取得
+        const WEBSOCKET_URL = "{{ websocket_url }}";
     </script>
     <link rel="stylesheet" href="{% static 'css/game.css' %}">
 </head>
