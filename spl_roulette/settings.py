@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'corsheaders',  # CORSヘッダーを使用するアプリを追加
-    'game'
+    'game',
+    'daphne'
 ]
 
 # CORSの設定
