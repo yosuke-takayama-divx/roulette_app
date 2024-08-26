@@ -50,19 +50,12 @@ MIDDLEWARE = [
 # Channelsの設定
 ASGI_APPLICATION = 'spl_roulette.asgi.application'  # プロジェクトのasgi.pyへのパス
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [(os.environ.get('REDIS_URL', '127.0.0.1'), 6379)],
-#         },
-#     },
-# }
+# チャンネルレイヤーの設定
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [(os.environ.get('REDIS_URL', 'redis://localhost:6379'))],
+            "hosts": [('redis://:pa24598c8c3c3f81e21b0840fe65dcc9f982cc42746637690d8908b60b17f388b@ec2-18-215-207-231.compute-1.amazonaws.com:30069')],
         },
     },
 }
