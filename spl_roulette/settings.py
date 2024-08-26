@@ -17,6 +17,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
+    'daphne'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,7 +28,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',  # CORSヘッダーを使用するアプリを追加
     'game',
-    'daphne'
 ]
 
 # CORSの設定
