@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 # CORSの設定
 CORS_ALLOWED_ORIGINS = [
     "https://test-splroulette001-7c4e722641b8.herokuapp.com",  # HerokuのURLを明記
-    "http://localhost:8000",  # ローカル開発用
+    "http://127.0.0.1:8000",  # ローカル開発用
 ]
 
 MIDDLEWARE = [
@@ -50,11 +50,19 @@ MIDDLEWARE = [
 # Channelsの設定
 ASGI_APPLICATION = 'spl_roulette.asgi.application'  # プロジェクトのasgi.pyへのパス
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [(os.environ.get('REDIS_URL', '127.0.0.1'), 6379)],
+#         },
+#     },
+# }
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [(os.environ.get('REDIS_URL', '127.0.0.1'), 6379)],
+            "hosts": [(os.environ.get('REDIS_URL', 'redis://localhost:6379'))],
         },
     },
 }
@@ -80,11 +88,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'spl_roulette.wsgi.application'
 
 # Database
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.environ.get('DATABASE_URL')
+#     )
+# }
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'spl',  # データベース名
+        'USER': 'postgres',  # 作成したユーザー名
+        'PASSWORD': 'pass',  # 作成したユーザーのパスワード
+        'HOST': 'localhost',  # ホスト名
+        'PORT': '5432',  # ポート番号
+    }
 }
+
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
