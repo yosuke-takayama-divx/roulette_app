@@ -1,4 +1,4 @@
-// WebSocketの初期化
+// WebSocketの初期化(https=wss)
 const socket = new WebSocket(
     'wss://' + window.location.host + '/ws/roulette/'
 );
@@ -11,6 +11,8 @@ socket.onopen = function() {
 
 socket.onmessage = function(e) {
     const data = JSON.parse(e.data);
+    // DOMを更新するコードを追加
+    document.getElementById('resultName').innerText = data.message;
 
     if (data.index !== undefined) {
         const userNameInput = document.getElementById("userName" + data.index);
