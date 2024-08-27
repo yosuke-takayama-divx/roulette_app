@@ -14,82 +14,85 @@
     <link rel="stylesheet" href="{% static 'css/game.css' %}">
 </head>
 <body>
-    <h1>武器ルーレット</h1>
-    <br>
-    
-    <!-- 1.jpgを表示するためにsrcを設定 -->
-    <img id="resultImage" src="" alt="結果画像" style="width: 300px;">
-
-    <p id="resultName">武器ルーレットをまわしちゃう？</p>
-    
-    <br>
-    <button onclick="spinRoulette(event)">スピン！</button>
-    <!-- エラーメッセージ表示用の要素 -->
-    <p id="errorMessage" style="color: red;"></p>
-    
-
-    <div id="form_wrap">
-        <div class="btn_form_txt_wrap">
-            <p id="btn_form_wrap" class="yajirusi_under">名前の入力はこちらをタップ</p>
+    <div class="container">
+        <div class="main">
+            <h1>武器ルーレット</h1>
+            <br>
+            
+            <!-- 1.jpgを表示するためにsrcを設定 -->
+            <img id="resultImage" src="" alt="結果画像" style="width: 100%; max-width: 1000px;">
+        
+            <p id="resultName">武器ルーレットをまわしちゃう？</p>
+            
+            <br>
+            <button onclick="spinRoulette(event)">スピン！</button>
+            <!-- エラーメッセージ表示用の要素 -->
+            <p id="errorMessage" style="color: red;"></p>
+            
+        
+            <div id="form_wrap">
+                <div class="btn_form_txt_wrap">
+                    <p id="btn_form_wrap" class="yajirusi_under">名前の入力はこちらをタップ</p>
+                </div>
+                <form id="nameForm">
+                    <div>
+                        <button type="button" onclick="showResult(1)">1</button>
+                        <input type="text" id="userName1" name="userName1">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(2)">2</button>
+                        <input type="text" id="userName2" name="userName2">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(3)">3</button>
+                        <input type="text" id="userName3" name="userName3">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(4)">4</button>
+                        <input type="text" id="userName4" name="userName4">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(5)">5</button>
+                        <input type="text" id="userName5" name="userName5">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(6)">6</button>
+                        <input type="text" id="userName6" name="userName6">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(7)">7</button>
+                        <input type="text" id="userName7" name="userName7">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(8)">8</button>
+                        <input type="text" id="userName8" name="userName8">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(9)">9</button>
+                        <input type="text" id="userName9" name="userName9">
+                    </div>
+                    <div>
+                        <button type="button" onclick="showResult(10)">10</button>
+                        <input type="text" id="userName10" name="userName10">
+                    </div>
+                </form>
+            </div>
+        
+            <h2>選ばれた武器一覧</h2>
+            <ul id="weaponSelectionList">
+                <li>1:<span id="list_resultName1"></span></li>
+                <li>2:<span id="list_resultName2"></span></li>
+                <li>3:<span id="list_resultName3"></span></li>
+                <li>4:<span id="list_resultName4"></span></li>
+                <li>5:<span id="list_resultName5"></span></li>
+                <li>6:<span id="list_resultName6"></span></li>
+                <li>7:<span id="list_resultName7"></span></li>
+                <li>8:<span id="list_resultName8"></span></li>
+                <li>9:<span id="list_resultName9"></span></li>
+                <li>10:<span id="list_resultName10"></span></li>
+            </ul>
         </div>
-        <form id="nameForm">
-            <div>
-                <button type="button" onclick="showResult(1)">1</button>
-                <input type="text" id="userName1" name="userName1">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(2)">2</button>
-                <input type="text" id="userName2" name="userName2">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(3)">3</button>
-                <input type="text" id="userName3" name="userName3">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(4)">4</button>
-                <input type="text" id="userName4" name="userName4">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(5)">5</button>
-                <input type="text" id="userName5" name="userName5">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(6)">6</button>
-                <input type="text" id="userName6" name="userName6">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(7)">7</button>
-                <input type="text" id="userName7" name="userName7">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(8)">8</button>
-                <input type="text" id="userName8" name="userName8">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(9)">9</button>
-                <input type="text" id="userName9" name="userName9">
-            </div>
-            <div>
-                <button type="button" onclick="showResult(10)">10</button>
-                <input type="text" id="userName10" name="userName10">
-            </div>
-        </form>
     </div>
-
-    <h2>選ばれた武器一覧</h2>
-    <ul id="weaponSelectionList">
-        <li>1:<span id="list_resultName1"></span></li>
-        <li>2:<span id="list_resultName2"></span></li>
-        <li>3:<span id="list_resultName3"></span></li>
-        <li>4:<span id="list_resultName4"></span></li>
-        <li>5:<span id="list_resultName5"></span></li>
-        <li>6:<span id="list_resultName6"></span></li>
-        <li>7:<span id="list_resultName7"></span></li>
-        <li>8:<span id="list_resultName8"></span></li>
-        <li>9:<span id="list_resultName9"></span></li>
-        <li>10:<span id="list_resultName10"></span></li>
-    </ul>
-    
     <script src="{% static 'javascript/game.js' %}"></script>
 </body>
 </html>
