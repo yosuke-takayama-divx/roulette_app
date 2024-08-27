@@ -56,7 +56,7 @@ li{
 }
 
 .btn_form_txt_wrap{
-  pisition:relative;
+  position: relative;
   width: 100%;
 }
 #btn_form_wrap{
@@ -82,4 +82,20 @@ li{
 
 #form_wrap form {
   display: none;
+}
+
+.list input{
+  font-size: 24px;
+}
+.list{
+  padding: 5px 0px;
+  width: 200px;
+}
+.list button{
+  font-size: 24px;
+  background: #fff;
+  min-width: 50px;
+  border: 1px solid #333;
+  color: #333;
+  margin-right: 5px;
 }
