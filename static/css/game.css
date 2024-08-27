@@ -8,6 +8,17 @@ li {
 }
 
 
+.container{
+  background: url("../images/bg1.png");
+  background-size: cover;
+  padding: 0 30px;
+}
+.main{
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+}
+
 .toggle_open{
   height:500px!important;
 }
