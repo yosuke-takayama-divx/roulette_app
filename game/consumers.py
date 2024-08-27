@@ -40,6 +40,19 @@ class RouletteConsumer(WebsocketConsumer):
                 'image_name': selected_weapon['name'],
                 'image_path': selected_weapon['image_path']
             }))
+            # 他のクライアントにもブロードキャスト
+            self.channel_layer.group_send(
+                "roulette",
+                {
+                    'type': 'chat_message',
+                    'message': {
+                        'userName': user_name,
+                        'index': index,
+                        'image_name': selected_weapon['name'],
+                        'image_path': selected_weapon['image_path']
+                    }
+                }
+            )
         else:
             # 無効なデータを受け取った場合のエラーメッセージ
             error_message = 'Invalid data received'
