@@ -32,7 +32,7 @@ li {
 }
 
 .toggle_open{
-  height:500px!important;
+  height:auto!important;
 }
 
 /* ルーレットボタン */
@@ -59,9 +59,6 @@ li{
   position: relative;
   width: 100%;
 }
-#btn_form_wrap{
-
-}
 .yajirusi_under::after {
   position: absolute;
   bottom: 10px;
@@ -73,7 +70,7 @@ li{
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid black; /* 三角形の色を指定 */
+  border-top: 5px solid black; /* 三角形色 */
 }
 
 #form_wrap.toggle_open form {
@@ -84,11 +81,12 @@ li{
   display: none;
 }
 
-.list input{
-  font-size: 24px;
-}
+
 .list{
   padding: 5px 0px;
+}
+.list input{
+  font-size: 24px;
   width: 200px;
 }
 .list button{
@@ -98,4 +96,8 @@ li{
   border: 1px solid #333;
   color: #333;
   margin-right: 5px;
+}
+
+#weaponSelectionList li{
+  font-size: 28px;
 }
