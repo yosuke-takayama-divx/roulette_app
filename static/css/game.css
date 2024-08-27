@@ -6,6 +6,9 @@ li {
   height: 100px;
   overflow: hidden;
 }
+.txt_center{
+  text-align: center;
+}
 
 
 .container{
@@ -17,6 +20,9 @@ li {
   max-width: 1000px;
   margin: 0 auto;
   background: #fff;
+}
+.content{
+  padding: 0 10%;
 }
 
 .toggle_open{
