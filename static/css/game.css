@@ -29,6 +29,23 @@ li {
   height:500px!important;
 }
 
+/* ルーレットボタン */
+.btn_spinRoulette{
+  background: #159e86;
+  color: #fff;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+  border-radius: 29px;
+  border: none;
+  box-shadow: 5px 3px 1px #ccc;
+  width: 90%;
+  margin: 0 5%;
+}
+
+
+
 .btn_form_txt_wrap{
   pisition:relative;
   width: 100%;
