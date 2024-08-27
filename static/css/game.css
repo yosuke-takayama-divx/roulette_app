@@ -1,3 +1,9 @@
+p{
+  font-size: 20px;
+}
+title{
+  font-size: 30px;
+}
 li {
   list-style: none;
 }
@@ -31,7 +37,7 @@ li {
 
 /* ルーレットボタン */
 .btn_spinRoulette{
-  background: #159e86;
+  background: #6e04b6;
   color: #fff;
   padding: 15px 30px;
   font-size: 20px;
