@@ -6,6 +6,9 @@ li {
   height: 100px;
   overflow: hidden;
 }
+.txt_center{
+  text-align: center;
+}
 
 
 .container{
@@ -21,7 +24,6 @@ li {
 .content{
   padding: 0 10%;
 }
-
 
 .toggle_open{
   height:500px!important;
