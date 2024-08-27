@@ -76,9 +76,9 @@ function showResult(index) {
     if (result) {
         updateResultDisplay(index);
         currentIndex = index;
-        errorMessage.innerText = ""; // エラーメッセージをクリア
+        errorMessage.innerText = "";
     } else {
-        errorMessage.innerText = "スピンボタンを押してください。";
+        errorMessage.innerText = `${index} のルーレットを登録しました`;
     }
 }
 
