@@ -6,14 +6,17 @@ class RouletteConsumer(WebsocketConsumer):
     connected_users = {}  # 接続されているユーザーの情報を保持する辞書
 
     def connect(self):
+        print("Connect method called")  # デバッグ用
         self.accept()
-        print("Client connected.")
+        print(f"Client connected. Channel name: {self.channel_name}")  # チャンネル名をログに出力
+        # 他の接続処理...
 
     def disconnect(self, close_code):
+        print("Client disconnected.")  # デバッグ用
         # ユーザーが切断された時の処理
-        print("Client disconnected.")
 
     def receive(self, text_data):
+        print("Receive method called")  # デバッグ用
         text_data_json = json.loads(text_data)
         user_name = text_data_json.get('userName')
         index = text_data_json.get('index')
