@@ -3,6 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import random
 
 class RouletteConsumer(AsyncWebsocketConsumer):
+    # 接続処理
     async def connect(self):
         self.group_name = 'roulette_group'
         await self.channel_layer.group_add(
@@ -12,15 +13,14 @@ class RouletteConsumer(AsyncWebsocketConsumer):
         await self.accept()
         print(f"Client connected. Channel name: {self.channel_name}")  # チャンネル名をログに出力
 
+    # 切断処理
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
             self.group_name,
             self.channel_name
         )
-        print("Client disconnected.")  # デバッグ用
-
+    # メッセージ受信処理
     async def receive(self, text_data):
-        print("Receive method called")  # デバッグ用
         text_data_json = json.loads(text_data)
         user_name = text_data_json.get('userName')
         index = text_data_json.get('index')
