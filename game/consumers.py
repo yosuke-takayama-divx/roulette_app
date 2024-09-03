@@ -1,19 +1,26 @@
 import json
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 import random
 
-class RouletteConsumer(WebsocketConsumer):
-    connected_users = {}  # 接続されているユーザーの情報を保持する辞書
+class RouletteConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.group_name = 'roulette_group'
+        await self.channel_layer.group_add(
+            self.group_name,
+            self.channel_name
+        )
+        await self.accept()
+        print(f"Client connected. Channel name: {self.channel_name}")  # チャンネル名をログに出力
 
-    def connect(self):
-        self.accept()
-        print("Client connected.")
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.group_name,
+            self.channel_name
+        )
+        print("Client disconnected.")  # デバッグ用
 
-    def disconnect(self, close_code):
-        # ユーザーが切断された時の処理
-        print("Client disconnected.")
-
-    def receive(self, text_data):
+    async def receive(self, text_data):
+        print("Receive method called")  # デバッグ用
         text_data_json = json.loads(text_data)
         user_name = text_data_json.get('userName')
         index = text_data_json.get('index')
@@ -30,20 +37,30 @@ class RouletteConsumer(WebsocketConsumer):
             # 選ばれた武器情報をコンソールに出力
             print(f'{user_name}が選んだ武器: {selected_weapon["name"]}')
 
-            # ユーザー情報を接続ユーザー辞書に追加
-            self.connected_users[index] = user_name
-
-            # 選ばれた武器を送信
-            self.send(text_data=json.dumps({
-                'userName': user_name,
-                'index': index,
-                'image_name': selected_weapon['name'],
-                'image_path': selected_weapon['image_path']
-            }))
+            # 選ばれた武器をグループに送信
+            await self.channel_layer.group_send(
+                self.group_name,
+                {
+                    'type': 'chat_message',
+                    'userName': user_name,
+                    'index': index,
+                    'image_name': selected_weapon['name'],
+                    'image_path': selected_weapon['image_path']
+                }
+            )
         else:
             # 無効なデータを受け取った場合のエラーメッセージ
             error_message = 'Invalid data received'
             print(error_message)
-            self.send(text_data=json.dumps({
+            await self.send(text_data=json.dumps({
                 'error': error_message
             }))
+
+    async def chat_message(self, event):
+        # グループからのメッセージをクライアントに送信
+        await self.send(text_data=json.dumps({
+            'userName': event['userName'],
+            'index': event['index'],
+            'image_name': event['image_name'],
+            'image_path': event['image_path']
+        }))
