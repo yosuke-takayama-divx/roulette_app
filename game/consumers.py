@@ -11,7 +11,7 @@ class RouletteConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
-        print(f"Client connected. Channel name: {self.channel_name}")  # チャンネル名をログに出力
+        print(f"Client connected. Channel name: {self.channel_name}")  # チャンネル名の確認ログ
 
     # 切断処理
     async def disconnect(self, close_code):
@@ -26,7 +26,7 @@ class RouletteConsumer(AsyncWebsocketConsumer):
         index = text_data_json.get('index')
 
         if user_name is not None and index is not None:
-            # ランダムな武器を選択（例として固定のデータを使用）
+            # ランダムな武器を選択
             weapons = [
                 {"name": "スプラシューター", "image_path": "images/1.jpg"},
                 {"name": "N-ZAP85", "image_path": "images/2.jpg"},
@@ -49,15 +49,15 @@ class RouletteConsumer(AsyncWebsocketConsumer):
                 }
             )
         else:
-            # 無効なデータを受け取った場合のエラーメッセージ
+            # 無効なデータを受け取った場合エラーメッセージ
             error_message = 'Invalid data received'
             print(error_message)
             await self.send(text_data=json.dumps({
                 'error': error_message
             }))
 
+    # メッセージ送信処理
     async def chat_message(self, event):
-        # グループからのメッセージをクライアントに送信
         await self.send(text_data=json.dumps({
             'userName': event['userName'],
             'index': event['index'],
