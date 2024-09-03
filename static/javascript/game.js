@@ -25,13 +25,23 @@ socket.onmessage = function(e) {
                 imagePath: data.image_path
             };
 
-            // 選ばれた武器一覧を更新
+            // 選ばれた武器一覧更新
             const listResultName = document.getElementById("list_resultName" + data.index);
             listResultName.innerText = userName + 'の武器は ' + data.image_name + ' です！';
 
-            // 現在のインデックスを更新
+            // 現在のインデックス更新
             if (currentIndex === data.index) {
                 updateResultDisplay(data.index);
+            }
+
+            // フォームデータ更新
+            if (data.formData) {
+                for (let i = 1; i <= 10; i++) {
+                    const input = document.getElementById("userName" + i);
+                    if (input) {
+                        input.value = data.formData["userName" + i] || "";
+                    }
+                }
             }
         } else {
             console.error("userName" + data.index + " が見つかりません。");

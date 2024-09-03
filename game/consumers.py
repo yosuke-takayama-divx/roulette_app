@@ -24,6 +24,7 @@ class RouletteConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         user_name = text_data_json.get('userName')
         index = text_data_json.get('index')
+        form_data = text_data_json.get('formData')
 
         if user_name is not None and index is not None:
             # ランダムな武器を選択
@@ -34,7 +35,7 @@ class RouletteConsumer(AsyncWebsocketConsumer):
             ]
             selected_weapon = random.choice(weapons)
 
-            # 選ばれた武器情報をコンソールに出力
+            # 選ばれた武器情報の確認ログ
             print(f'{user_name}が選んだ武器: {selected_weapon["name"]}')
 
             # 選ばれた武器をグループに送信
@@ -45,7 +46,8 @@ class RouletteConsumer(AsyncWebsocketConsumer):
                     'userName': user_name,
                     'index': index,
                     'image_name': selected_weapon['name'],
-                    'image_path': selected_weapon['image_path']
+                    'image_path': selected_weapon['image_path'],
+                    'formData': form_data
                 }
             )
         else:
@@ -62,5 +64,6 @@ class RouletteConsumer(AsyncWebsocketConsumer):
             'userName': event['userName'],
             'index': event['index'],
             'image_name': event['image_name'],
-            'image_path': event['image_path']
+            'image_path': event['image_path'],
+            'formData': event['formData']
         }))
