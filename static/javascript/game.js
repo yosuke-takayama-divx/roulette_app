@@ -34,14 +34,9 @@ socket.onmessage = function(e) {
                 updateResultDisplay(data.index);
             }
 
-            // フォームデータ更新
-            if (data.formData) {
-                for (let i = 1; i <= 10; i++) {
-                    const input = document.getElementById("userName" + i);
-                    if (input) {
-                        input.value = data.formData["userName" + i] || "";
-                    }
-                }
+            // 現在のインデックスを更新
+            if (currentIndex === data.index) {
+                updateResultDisplay(data.index);
             }
         } else {
             console.error("userName" + data.index + " が見つかりません。");
@@ -79,6 +74,21 @@ function spinRoulette(event) {
         console.error("WebSocketはオープンではありません。状態：" + socket.readyState);
     }
 }
+
+// フォームの入力が変更されたときにデータを送信
+document.querySelectorAll('input[type="text"]').forEach(input => {
+    input.addEventListener('input', () => {
+        if (socket.readyState === WebSocket.OPEN) {
+            let formData = {};
+            for (let i = 1; i <= 10; i++) {
+                const userNameInput = document.getElementById("userName" + i);
+                const userName = userNameInput ? userNameInput.value || "あなた" : "あなた";
+                formData["userName" + i] = userName;
+            }
+            socket.send(JSON.stringify({ formData: formData }));
+        }
+    });
+});
 // 結果表示ボタン
 function showResult(index) {
     const result = results[index];

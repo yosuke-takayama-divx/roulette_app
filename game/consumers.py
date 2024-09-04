@@ -26,7 +26,16 @@ class RouletteConsumer(AsyncWebsocketConsumer):
         index = text_data_json.get('index')
         form_data = text_data_json.get('formData')
 
-        if user_name is not None and index is not None:
+        if form_data is not None:
+            # フォームデータをグループに送信
+            await self.channel_layer.group_send(
+                self.group_name,
+                {
+                    'type': 'form_data',
+                    'formData': form_data
+                }
+            )
+        elif user_name is not None and index is not None:
             # ランダムな武器を選択
             weapons = [
                 {"name": "スプラシューター", "image_path": "images/1.jpg"},
@@ -65,5 +74,11 @@ class RouletteConsumer(AsyncWebsocketConsumer):
             'index': event['index'],
             'image_name': event['image_name'],
             'image_path': event['image_path'],
+            'formData': event['formData']
+        }))
+        
+    # グループからのフォームデータをクライアントに送信
+    async def form_data(self, event):
+        await self.send(text_data=json.dumps({
             'formData': event['formData']
         }))
