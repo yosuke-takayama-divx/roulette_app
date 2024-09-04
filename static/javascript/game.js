@@ -114,7 +114,7 @@ function updateResultDisplay(index) {
 // ページがロードされた時0.jpgを表示
 document.addEventListener("DOMContentLoaded", function() {
     const img = document.getElementById("resultImage");
-    img.src = STATIC_URL + "images/0.jpg";
+    img.src = STATIC_URL + "images/0.jpeg";
 });
 
 document.getElementById("btn_form_wrap").onclick = function() {
